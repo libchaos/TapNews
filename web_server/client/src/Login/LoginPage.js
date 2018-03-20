@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import LoginForm from './LoginForm';
 import Auth from '../Auth/Auth';
 
@@ -33,7 +34,7 @@ class LoginPage extends React.Component{
             },
             body: JSON.stringify({
                 email: this.state.user.email,
-                password: this.state.password
+                password: this.state.user.password
             })       
         }).then(res => {
             if(res.status === 200){
@@ -48,7 +49,7 @@ class LoginPage extends React.Component{
                 console.log('Login failed');
                 res.json().then(function(json){
                     const errors = json.errors ? json.errors : {};
-                    errors.summary = errors;
+                    errors.summary = json.message;
                     this.setState({
                         errors
                     })

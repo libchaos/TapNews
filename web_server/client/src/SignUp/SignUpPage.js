@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import SignUpForm from './SignUpForm';
 import Auth from '../Auth/Auth';
 
@@ -22,13 +23,14 @@ class SignUpPage extends React.Component{
 
     processForm(event){
         event.preventDefault();
+ 
         const email = this.state.user.email;
         const password = this.state.user.password;
-        const confirm_password = this.state.confirm_password;
+        const confirm_password = this.state.user.confirm_password;
         if(password !== confirm_password){
             return;
         }
-        
+
         fetch('http://localhost:3000/auth/signup', {
             method: 'POST',
             cache: false,
@@ -38,7 +40,7 @@ class SignUpPage extends React.Component{
             },
             body: JSON.stringify({
                 email: this.state.user.email,
-                password: this.state.password
+                password: this.state.user.password
             })       
         }).then(res => {
             if(res.status === 200){
@@ -53,7 +55,8 @@ class SignUpPage extends React.Component{
                 console.log('Signup failed');
                 res.json().then(function(json){
                     const errors = json.errors ? json.errors : {};
-                    errors.summary = errors;
+                    errors.summary = json.message;
+                    console.log(json.errors)
                     this.setState({
                         errors
                     })
