@@ -1,7 +1,10 @@
+python-dateutil
+lxml
+newspaper
 python-jsonrpc
 pymongo
 pika
-requests
 redis
-lxml
+requests
 sklearn
+watchdog
